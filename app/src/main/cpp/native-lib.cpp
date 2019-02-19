@@ -29,11 +29,17 @@ Java_com_testprocesses_org_getprocess_MainActivity_passProcessInfos(JNIEnv *env,
 
            const char* pszAppName = env->GetStringUTFChars(jstrAppName,0);
            const char* pszPackageName = env->GetStringUTFChars(jstrPackageName,0);
-           std::string strAppName(pszAppName);
-           std::string strPackageName(pszPackageName);
-            result += strAppName;
-            result += "\n";
-            //result += strPackageName;
+           if(pszAppName && pszPackageName)
+           {
+               std::string strAppName(pszAppName);
+               std::string strPackageName(pszPackageName);
+               result += strAppName;
+               result += "\n";
+               //result += strPackageName;
+               env->ReleaseStringUTFChars(jstrAppName,pszAppName);
+               env->ReleaseStringUTFChars(jstrPackageName,pszPackageName);
+           }
+
     }
     return env->NewStringUTF(result.c_str());
 }
